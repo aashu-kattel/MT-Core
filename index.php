@@ -4,8 +4,9 @@
     session_start();
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $email = $_POST['email'];
-        $password = md5($_POST['password']);
+        $email = mysqli_real_escape_string($conn, $_POST['email']);
+        $password = mysqli_real_escape_string($conn, $_POST['password']);
+        $password = md5($password);
 
         $stmt = $conn->prepare("SELECT isAdmin FROM user WHERE email = ? AND Password = ?");
         $stmt->bind_param("ss", $email, $password);
